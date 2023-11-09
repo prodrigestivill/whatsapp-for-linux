@@ -191,6 +191,10 @@ namespace wfl::ui
         webkit_settings_set_hardware_acceleration_policy(settings, hwAccelPolicy);
         webkit_settings_set_minimum_font_size(settings, util::Settings::getInstance().getValue<int>("web", "min-font-size", 0));
 
+        // Workarround to allow loading media by disabling CSP (until it gets fixed in webkit)
+        webkit_settings_set_enable_xss_auditor(settings, FALSE);
+        webkit_settings_set_disable_web_security(settings, TRUE);
+
         webkit_web_view_set_zoom_level(*this, util::Settings::getInstance().getValue<double>("general", "zoom-level", 1.0));
 
         webkit_web_view_load_uri(*this, WHATSAPP_WEB_URI);
